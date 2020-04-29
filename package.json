@@ -1,0 +1,26 @@
+{
+  "name": "vocabulary-browser",
+  "version": "1.0.0",
+  "description": "vocab browser",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jsonld": "^3.1.0",
+    "nodemon": "^2.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/semantifyit/vocabulary-browser.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/semantifyit/vocabulary-browser/issues"
+  },
+  "homepage": "https://github.com/semantifyit/vocabulary-browser#readme"
+}

@@ -1,0 +1,40 @@
+[
+    {
+        "@context": {
+            "schema": "http://schema.org/",
+            "ds": "http://vocab.sti2.at/ds/"
+        },
+        "@id": "https://semantify.it/list/420bl4z31t",
+        "@type": "schema:DataCatalog",
+        "schema:name": "DachKG vocabularies",
+        "schema:description": "A list of well-documented Vocabularies published by DachKG.",
+        "schema:author": {
+            "@type": "schema:Person",
+            "schema:name": "D.Klinge",
+            "schema:memberOf": {
+                "@type": "schema:Organization",
+                "schema:name": "Thueringen-entdecken.de"
+            }
+        },
+        "schema:dataset": [
+            {
+                "@type": "ds:Vocabulary",
+                "schema:url": "https://semantify.it/voc/G8u6LC2HU",
+                "schema:name": "dach-kg version 1.0",
+                "schema:author": {
+                    "@type": "schema:Person",
+                    "schema:name": "elias"
+                }
+            },
+            {
+                "@type": "ds:Vocabulary",
+                "schema:url": "https://semantify.it/voc/AJHMbvZeI",
+                "schema:name": "Web API Authentication Extension",
+                "schema:author": {
+                    "@type": "schema:Person",
+                    "schema:name": "umut"
+                }
+            }
+        ]
+    }
+]

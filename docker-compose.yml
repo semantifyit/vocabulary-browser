@@ -1,0 +1,7 @@
+version: '3.4'
+
+services:
+  vocabularybrowser:
+    build: ./
+    ports:
+      - 8080:8080

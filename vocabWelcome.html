@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vocabulary Broswer</title>
+  <link rel="stylesheet" href="/styles/main.css">
+  <link rel="stylesheet" href="/styles/sdo.css">
+  <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+</head>
+
+<body>
+  <div id="header">
+    <div class="text-center">
+      <div class="content-wrapper text-left">
+        <a href="https://schema-tourism.sti2.org/" style="background-color: transparent !important;"><img
+            src="/images/Schema-logo_2.png"></a>
+      </div>
+    </div>
+  </div>
+  <div id="mainContent">
+    <h4 id="vocabName">
+      Welcome to Vocabulary:
+    </h4>
+    <ul>
+      <li id="NoofClasses"></li>
+      <li id="NoofProps"></li>
+    </ul>
+    <table class="definition-table">
+    </table>
+
+    <div id="allProps">
+      <h2>New properties are: </h2>
+      <ul id="lisofProps">
+      </ul>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/semantifyit/schema-org-adapter/dist/schema-org-adapter.min.js"></script>
+  <script src="/scripts/utils.js"></script>
+  <script src="/scripts/vocabWelcome.js"></script>
+</body>
+
+</html>
