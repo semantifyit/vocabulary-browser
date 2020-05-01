@@ -2,7 +2,7 @@ $(document).ready(function() {
     let mySA = new SDOAdapter();
     let externalVocabURL = "https://semantify.it/voc/" + getVocabId();
     let vocabId = getVocabId();
-    //    let vocabularyName = localStorage.getItem("vocab");
+    let vocabularyName = localStorage.getItem("vocab");
 
     mySA.constructSDOVocabularyURL('7.04', 'all-layers').then(function(sdoURL) {
         mySA.addVocabularies([sdoURL, externalVocabURL]).then(function() {
@@ -20,7 +20,7 @@ $(document).ready(function() {
                 return item.indexOf("schema:") !== 0;
             });
 
-            //            $('#vocabName').append(`${vocabularyName}  (${VocabName})`);
+            $('#vocabName').append(`${vocabularyName}  (${VocabName})`);
             let noOfClasses = classesinVocab.length;
             if (noOfClasses > 0) {
                 $('#noOfClasses').append(`${noOfClasses} Classes`);
