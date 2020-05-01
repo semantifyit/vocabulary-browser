@@ -42,10 +42,10 @@ $(document).ready(function() {
                 $('#noOfEnu').append(`No enumerations found`);
             }
 
-            classesinVocab.forEach(function(vocabClass, index) {
+            classesinVocab.forEach((vocabClass, index) => {
                 let className = mySA.getClass(vocabClass);
                 let vocabProps = className.getProperties(false);
-                vocabProps.forEach(function(vocabProp) {
+                vocabProps.forEach((vocabProp) => {
                     //  Add all <a> properties of each class inside one td with <br>
                     $(`#property${index}`).append(`<a href="/${vocabId}/${vocabProp}">${vocabProp}</a> <br>`);
                 });
@@ -54,13 +54,13 @@ $(document).ready(function() {
     })
 
     function listProperties(allProps) {
-        allProps.forEach(function(prop) {
+        allProps.forEach((prop) => {
             $('#listofProps').append(`<li> <a href="/${vocabId}/${prop}">${prop}</a> </li>`);
         });
     }
 
     function listClasses(allClasses) {
-        allClasses.forEach(function(oneClass) {
+        allClasses.forEach((oneClass) => {
             $('#listofClasses').append(`<li> <a href="/${vocabId}/${oneClass}">${oneClass}</a> </li>`);
         });
     }

@@ -10,7 +10,6 @@ $(document).ready(function() {
     mySA.constructSDOVocabularyURL('7.04', 'all-layers').then(function(sdoURL) {
         mySA.addVocabularies([sdoURL, externalVocabURL]).then(function() {
             $('#loading').hide();
-
             let termTest;
             let isproperty = false;
             let isclass = false;
@@ -88,12 +87,12 @@ $(document).ready(function() {
         let propSuperProp = termTest.getSuperProperties();
         let propSubProp = termTest.getSubProperties(false);
 
-        propSuperProp.forEach(function(propSuper) {
+        propSuperProp.forEach((propSuper) => {
             superProp = propSuper.replace('schema:', '');
             let superPropName = mySA.getProperty(propSuper);
             propSuperVocab = superPropName.getVocabulary();
         });
-        propSubProp.forEach(function(subProp) {
+        propSubProp.forEach((subProp) => {
             propSub = subProp.replace('schema:', '');
             let subPropName = mySA.getProperty(subProp);
             propSubVocab = subPropName.getVocabulary();
@@ -101,12 +100,12 @@ $(document).ready(function() {
 
 
         let domainCellItems = [];
-        propDomain.forEach(function(propDom) {
+        propDomain.forEach((propDom) => {
             domainCellItems.push(makeDomainCell(propDom));
         });
 
         let rangeCellItems = [];
-        propRange.forEach(function(propRange) {
+        propRange.forEach((propRange) => {
             rangeCellItems.push(makeRangeCell(propRange));
         });
         let DefTableHTML = "";
@@ -205,7 +204,7 @@ $(document).ready(function() {
         let EnuMembers = EnuClass.getEnumerationMembers();
 
         let EnumMemberDomains = [];
-        EnuMembers.forEach(function(enumember) {
+        EnuMembers.forEach((enumember) => {
             console.log(EnumMemberDomains);
             let EnuMemberClass = mySA.getEnumerationMember(enumember)
             EnumMemberDomains.push(EnuMemberClass.getDomainEnumerations());
@@ -233,7 +232,7 @@ $(document).ready(function() {
             if (checkEnumeration) {
                 EnuMemberfunc = fetchEnumerationMembers(termIRI);
                 $('#termClass').append(`<br><div id="EnuMembers"><a href="#EnuMembers">Enumeration members <br> </a> <ul id="listEnuMembers"></ul></div>`);
-                EnuMemberfunc.forEach(function(member) {
+                EnuMemberfunc.forEach((member) => {
                     $('#listEnuMembers').append(`<li><a href="/${vocabId}/${member}">${member}</a></li>`);
                 });
             }
@@ -244,14 +243,14 @@ $(document).ready(function() {
         superClasses.push(termIRI);
 
         superClasses.reverse();
-        superClasses.forEach(function(superclass, index) {
+        superClasses.forEach((superclass, index) => {
             let term = mySA.getClass(superclass);
             let props = term.getProperties(false);
             // Create tbody for class
             let generatedTbody = makeClassBody(term, superclass, index);
             // Add all classes in tbody 
             $('#classes-table').append(generatedTbody);
-            props.forEach(function(prop) {
+            props.forEach((prop) => {
                 let generatedHTML = makeProperty(prop);
                 $('#sup-class-props' + index).append(generatedHTML);
             });
@@ -280,7 +279,7 @@ $(document).ready(function() {
 
     function makeBreadCrum(superClasses, enumerationMember) {
         let superClassesArray = [];
-        superClasses.forEach(function(superClass) {
+        superClasses.forEach((superClass) => {
             superClassesArray.push(makeCrumCell(superClass));
         });
         let breadcrumHTML;
@@ -352,7 +351,7 @@ $(document).ready(function() {
         let propRanges = testProperty.getRanges(false);
         let propDesc = testProperty.getDescription();
         let rangeCellItems = [];
-        propRanges.forEach(function(propRange) {
+        propRanges.forEach((propRange) => {
             rangeCellItems.push(makeRangeCell(propRange));
         });
 

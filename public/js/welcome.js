@@ -1,6 +1,6 @@
 $.getJSON("vocabs.JSON", function(data) {
     let dataset = data[0]['schema:dataset'];
-    dataset.forEach(function(set, index) {
+    dataset.forEach((set, index) => {
         let nameofvocab = [set][0]['schema:name'];
         let vocabUrl = [set][0]['schema:url'];
         let authorName = [set][0]['schema:author']['schema:name'];
