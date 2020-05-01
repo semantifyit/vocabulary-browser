@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    const url = window.location.href;
     const pathname = window.location.pathname;
     let mySA = new SDOAdapter();
     let splitURL = pathname.split('/');
@@ -7,17 +6,6 @@ $(document).ready(function() {
     const term = splitURL[2];
     let externalVocabURL = "https://semantify.it/voc/" + vocabId;
     let currentVocab;
-    //todo Later will be used for another table "Instances of Place may appear as values for the following properties".
-    /*
-    let allProps = mySA.getAllProperties();
-    let termsRangeProps = [];
-    allProps.forEach(function(prop){
-        let propRanges = prop.getRanges();
-        // [1,2,3].includes(4)
-        if(propRanges.includes(term)) {
-            termsRangeProps.push(prop);
-        }
-    })*/
 
     mySA.constructSDOVocabularyURL('7.04', 'all-layers').then(function(sdoURL) {
         mySA.addVocabularies([sdoURL, externalVocabURL]).then(function() {
@@ -61,7 +49,6 @@ $(document).ready(function() {
         })
     });
 
-
     function createPropertyPage(termTest) {
         let NameofProp;
 
@@ -96,8 +83,6 @@ $(document).ready(function() {
         let propSuperVocab;
         let propSub;
         let propSubVocab;
-        let domain;
-        let propDomVocab;
 
         let propRange = termTest.getRanges(false);
         let propDomain = termTest.getDomains(false);
@@ -219,7 +204,6 @@ $(document).ready(function() {
 
         let EnuClass = mySA.getEnumeration(term);
         let EnuMembers = EnuClass.getEnumerationMembers();
-        let EnumembersArray = EnuClass.getEnumerationMembers();
 
         let EnumMemberDomains = [];
         EnuMembers.forEach(function(enumember) {
@@ -269,7 +253,6 @@ $(document).ready(function() {
             // Add all classes in tbody 
             $('#classes-table').append(generatedTbody);
             props.forEach(function(prop) {
-                // let propVocab = prop.replace('schema:', '');
                 let generatedHTML = makeProperty(prop);
                 $('#sup-class-props' + index).append(generatedHTML);
             });
@@ -312,9 +295,6 @@ $(document).ready(function() {
     }
 
     function makeCrumCell(superClass) {
-        let isEnumerationMember;
-        let isclass;
-        let isproperty;
         let crumProp;
         let IRIcheck;
 
@@ -372,7 +352,6 @@ $(document).ready(function() {
         let testProperty = mySA.getProperty(property);
         let propRanges = testProperty.getRanges(false);
         let propDesc = testProperty.getDescription();
-        let iri = testProperty.getIRI();
         let rangeCellItems = [];
         propRanges.forEach(function(propRange) {
             rangeCellItems.push(makeRangeCell(propRange));
@@ -434,20 +413,6 @@ $(document).ready(function() {
         }
         if (propDomVocab === currentVocab) {
             return `<a property="domainIncludes" href="/${vocabId}/${domain}" >${domain}</a>`
-        }
-    }
-
-    // this is sort of extra information maybe we need later
-    function vocabInformation(externalVocabURL) {
-        const vocabcheck = mySA.getVocabularies(externalVocabURL);
-        delete vocabcheck['schema'];
-        const VocabValue = Object.values(vocabcheck);
-        const VocabName = Object.keys(vocabcheck);
-        const classesinVocab = mySA.getListOfClasses({ fromVocabulary: VocabName });
-        const propertiesinVocab = mySA.getAllProperties({ fromVocabulary: VocabName });
-        return {
-            classes: classesinVocab,
-            properties: propertiesinVocab,
         }
     }
 })

@@ -10,9 +10,8 @@ $(document).ready(function() {
             let propertiesinVocab;
             const vocabcheck = mySA.getVocabularies(externalVocabURL);
             delete vocabcheck['schema'];
-            const VocabValue = Object.values(vocabcheck);
-            const VocabName = Object.keys(vocabcheck); // todo get name of key dynamically
-            let classesinVocab = mySA.getListOfClasses({ fromVocabulary: VocabName }); //todo each VocabName
+            const VocabName = Object.keys(vocabcheck);
+            let classesinVocab = mySA.getListOfClasses({ fromVocabulary: VocabName });
             propertiesinVocab = mySA.getAllProperties({ fromVocabulary: VocabName });
             let allProps = mySA.getListOfProperties({ fromVocabulary: VocabName })
 
@@ -25,8 +24,6 @@ $(document).ready(function() {
             let noOfClasses = classesinVocab.length;
             if (noOfClasses > 0) {
                 $('#noOfClasses').append(`${noOfClasses} Classes`);
-                // $('.definition-table').append(`<thead><tr><th>New classes</th>
-                // <th>New properties for class</th></tr></thead><tbody id="classesProps"></tbody>`);
                 listClasses(classesinVocab);
             } else {
                 $('#noOfClasses').append("No classes found");
@@ -49,8 +46,7 @@ $(document).ready(function() {
                 let className = mySA.getClass(vocabClass);
                 let vocabProps = className.getProperties(false);
                 vocabProps.forEach(function(vocabProp) {
-                    //this will add all <a> properties of each class inside one td with <br>
-                    let property = mySA.getProperty(vocabProp);
+                    //  Add all <a> properties of each class inside one td with <br>
                     $(`#property${index}`).append(`<a href="/${vocabId}/${vocabProp}">${vocabProp}</a> <br>`);
                 });
             });
