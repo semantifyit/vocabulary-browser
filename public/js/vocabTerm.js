@@ -11,7 +11,6 @@ $(document).ready(function() {
         mySA.addVocabularies([sdoURL, externalVocabURL]).then(function() {
             $('#loading').hide();
 
-            //todo loading icon
             let termTest;
             let isproperty = false;
             let isclass = false;
