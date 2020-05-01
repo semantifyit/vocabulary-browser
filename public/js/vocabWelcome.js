@@ -22,27 +22,27 @@ $(document).ready(function() {
             });
 
             $('#vocabName').append(`${vocabularyName}  (${VocabName})`);
-            let NoofClasses = classesinVocab.length;
-            if (NoofClasses > 0) {
-                $('#NoofClasses').append(`${NoofClasses} Classes`);
+            let noOfClasses = classesinVocab.length;
+            if (noOfClasses > 0) {
+                $('#noOfClasses').append(`${noOfClasses} Classes`);
                 // $('.definition-table').append(`<thead><tr><th>New classes</th>
                 // <th>New properties for class</th></tr></thead><tbody id="classesProps"></tbody>`);
                 listClasses(classesinVocab);
             } else {
-                $('#NoofClasses').append("No classes found");
+                $('#noOfClasses').append("No classes found");
             }
-            let NoofProps = propertiesinVocab.length;
-            if (NoofProps > 0) {
-                $('#NoofProps').append(`${NoofProps} Properties`);
+            let noOfProps = propertiesinVocab.length;
+            if (noOfProps > 0) {
+                $('#noOfProps').append(`${noOfProps} Properties`);
                 listProperties(allProps);
             } else {
-                $('#NoofProps').append("No properties found");
+                $('#noOfProps').append("No properties found");
             }
-            let NoofEnu = enumerationsInVocab.length;
-            if (NoofEnu > 0) {
-                $('#NoofEnu').append(`${NoofEnu} Enumerations`);
+            let noOfEnu = enumerationsInVocab.length;
+            if (noOfEnu > 0) {
+                $('#noOfEnu').append(`${noOfEnu} Enumerations`);
             } else {
-                $('#NoofEnu').append(`No enumerations found`);
+                $('#noOfEnu').append(`No enumerations found`);
             }
 
             classesinVocab.forEach(function(vocabClass, index) {
