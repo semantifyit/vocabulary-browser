@@ -214,8 +214,6 @@ $(document).ready(function() {
         };
         return DefTableHTML;
     }
-    let EnuMemberDomain = [];
-
 
     function fetchEnumerationMembers(term) {
 
@@ -223,14 +221,14 @@ $(document).ready(function() {
         let EnuMembers = EnuClass.getEnumerationMembers();
         let EnumembersArray = EnuClass.getEnumerationMembers();
 
-        let EnuMemberDomain = [];
+        let EnumMemberDomains = [];
         EnuMembers.forEach(function(enumember) {
+            console.log(EnumMemberDomains);
             let EnuMemberClass = mySA.getEnumerationMember(enumember)
-            EnuMemberDomain = EnuMemberClass.getDomainEnumerations();
+            EnumMemberDomains.push(EnuMemberClass.getDomainEnumerations());
         });
         return EnuMembers;
     };
-
 
     function createClassPage(termTest, enumerationMember) {
         let termIRI = termTest.getIRI(true);
@@ -249,7 +247,7 @@ $(document).ready(function() {
             superClasses = termTest.getSuperClasses(true);
             let checkEnumeration = superClasses.includes('schema:Enumeration');
             let EnuMemberfunc;
-            if (checkEnumeration == true) {
+            if (checkEnumeration) {
                 EnuMemberfunc = fetchEnumerationMembers(termIRI);
                 $('#termClass').append(`<br><div id="EnuMembers"><a href="#EnuMembers">Enumeration members <br> </a> <ul id="listEnuMembers"></ul></div>`);
                 EnuMemberfunc.forEach(function(member) {
@@ -260,19 +258,15 @@ $(document).ready(function() {
 
         superClasses.reverse();
 
-        //here I push term as last array class which is last of breadcrum
-
         superClasses.push(termIRI);
-
-        //  superClasses.push(enumerationMember);
 
         superClasses.reverse();
         superClasses.forEach(function(superclass, index) {
             let term = mySA.getClass(superclass);
             let props = term.getProperties(false);
-            //create tbody for class
+            // Create tbody for class
             let generatedTbody = makeClassBody(term, superclass, index);
-            // all classes will be added in tbody 
+            // Add all classes in tbody 
             $('#classes-table').append(generatedTbody);
             props.forEach(function(prop) {
                 // let propVocab = prop.replace('schema:', '');
