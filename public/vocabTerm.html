@@ -2,59 +2,57 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Vocabulary Broswer</title>
-  <link rel="stylesheet" href="/styles/main.css">
-  <link rel="stylesheet" href="/styles/sdo.css">
-  <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Vocabulary Broswer</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/sdo.css">
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 
 </head>
 
 <body>
-  <div id="header">
-    <div class="text-center">
-      <div class="content-wrapper text-left">
-        <a href="https://schema-tourism.sti2.org/" style="background-color: transparent !important;"><img
-            src="/images/semantify-logo.png"></a>
-      </div>
+    <div id="header">
+        <div class="text-center">
+            <div class="content-wrapper text-left">
+                <a href="https://schema-tourism.sti2.org/" style="background-color: transparent !important;"><img src="/images/semantify-logo.png"></a>
+            </div>
+        </div>
     </div>
-  </div>
-  <div id="mainContent" typeof="" resource="">
-    <div id="termProperty" style="display: none;">
-      <h1 property="rdfs:label" class="page-title"></h1>
-      <h4><span id="breadcrumbs" class="breadcrumbs">
+    <div id="mainContent" typeof="" resource="">
+        <div id="termProperty" style="display: none;">
+            <h1 property="rdfs:label" class="page-title"></h1>
+            <h4><span id="breadcrumbs" class="breadcrumbs">
         </span>
-      </h4>
-      <div property="rdfs:comment"></div>
-      <!--Tables will come here -->
-    </div>
-    <div id="termClass" style="display: none;">
-      <h1 property="rdfs:label" class="page-title"></h1>
-      <h4><span id="breadcrumbs" class="breadcrumbs">
+            </h4>
+            <div property="rdfs:comment"></div>
+            <!--Tables will come here -->
+        </div>
+        <div id="termClass" style="display: none;">
+            <h1 property="rdfs:label" class="page-title"></h1>
+            <h4><span id="breadcrumbs" class="breadcrumbs">
         </span>
-      </h4>
-      <div property="rdfs:comment"></div>
-      <p id="link-legend"><span class="outgoingLink"></span>External link<span class="outgoingLinkRed"></span>External
-        link to schema.org</p>
-      <table id="classes-table" class="definition-table">
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Expected Type</th>
-            <th>Description</th>
-          </tr>
-        </thead>
+            </h4>
+            <div property="rdfs:comment"></div>
+            <p id="link-legend"><span class="outgoingLink"></span>External link<span class="outgoingLinkRed"></span>External link to schema.org</p>
+            <table id="classes-table" class="definition-table">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Expected Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
 
-        <tbody id="property-table" class="supertype">
-        </tbody>
-      </table>
+                <tbody id="property-table" class="supertype">
+                </tbody>
+            </table>
 
+        </div>
+        <div id="loading"> <img src="/images/loading.gif"> </div>
     </div>
-    <div id="loading"> <img src="/images/loading.gif"> </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/gh/semantifyit/schema-org-adapter/dist/schema-org-adapter.min.js"></script>
-  <script src="/scripts/utils.js"></script>
-  <script src="/scripts/vocab.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/semantifyit/schema-org-adapter/dist/schema-org-adapter.min.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/vocab.js"></script>
 </body>
 
 </html>

@@ -18,7 +18,7 @@ allProps.forEach(function(prop){
     }
 })*/
 
-mySA.constructSDOVocabularyURL('latest', 'all-layers').then(function (sdoURL) {
+mySA.constructSDOVocabularyURL('7.04', 'all-layers').then(function (sdoURL) {
   mySA.addVocabularies([sdoURL, externalVocabURL]).then(function () {
     $('#loading').hide();
 
