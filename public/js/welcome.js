@@ -1,3 +1,5 @@
+$("#header").load("header.html");
+
 $.getJSON("vocabs.JSON", function(data) {
     let dataset = data[0]['schema:dataset'];
     dataset.forEach((set, index) => {
