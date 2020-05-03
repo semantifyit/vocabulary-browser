@@ -19,10 +19,3 @@ $.getJSON("vocabs.JSON", function(data) {
         }
     });
 });
-
-$(document).delegate('.nameofvocab', 'click', function(e) {
-    e.preventDefault();
-    let vocabularyName = $(this).text();
-    localStorage.setItem("vocab", vocabularyName);
-    window.location.href = $(this).attr('href');
-});

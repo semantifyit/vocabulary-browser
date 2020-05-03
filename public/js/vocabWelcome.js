@@ -3,7 +3,18 @@ $(document).ready(() => {
     let mySA = new SDOAdapter();
     let externalVocabURL = "https://semantify.it/voc/" + getVocabId();
     let vocabId = getVocabId();
-    let vocabularyName = localStorage.getItem("vocab");
+
+    let vocabularyName = '';
+
+    $.getJSON("vocabs.JSON", function(data) {
+        let dataset = data[0]['schema:dataset'];
+        dataset.forEach((set) => {
+            let vocabUrl = [set][0]['schema:url'];
+            if (vocabUrl === externalVocabURL) {
+                vocabularyName = [set][0]['schema:name'];
+            }
+        });
+    });
 
     mySA.constructSDOVocabularyURL('7.04', 'all-layers').then((sdoURL) => {
         mySA.addVocabularies([sdoURL, externalVocabURL]).then(() => {
