@@ -1,11 +1,12 @@
 $(document).ready(function() {
+    $("#header").load("header.html");
     let mySA = new SDOAdapter();
     let externalVocabURL = "https://semantify.it/voc/" + getVocabId();
     let vocabId = getVocabId();
     let vocabularyName = localStorage.getItem("vocab");
 
-    mySA.constructSDOVocabularyURL('7.04', 'all-layers').then(function(sdoURL) {
-        mySA.addVocabularies([sdoURL, externalVocabURL]).then(function() {
+    mySA.constructSDOVocabularyURL('7.04', 'all-layers').then((sdoURL) => {
+        mySA.addVocabularies([sdoURL, externalVocabURL]).then(() => {
             $('#loading').hide();
             let propertiesinVocab;
             const vocabcheck = mySA.getVocabularies(externalVocabURL);
@@ -50,10 +51,15 @@ $(document).ready(function() {
                     $(`#property${index}`).append(`<a href="/${vocabId}/${vocabProp}">${vocabProp}</a> <br>`);
                 });
             });
-        })
-    })
+        }).catch((error) => {
+            console.log(error);
+        });
+    }).catch((error) => {
+        console.log(error);
+    });
 
     function listProperties(allProps) {
+        //        return new Promise(allProps) = > {}
         allProps.forEach((prop) => {
             $('#listofProps').append(`<li> <a href="/${vocabId}/${prop}">${prop}</a> </li>`);
         });
