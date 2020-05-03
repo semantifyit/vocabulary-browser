@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(() => {
     $("#header").load("header.html");
     let mySA = new SDOAdapter();
     let externalVocabURL = "https://semantify.it/voc/" + getVocabId();
