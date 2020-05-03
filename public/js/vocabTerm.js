@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    //    $("#header").load("header.html");
     const pathname = window.location.pathname;
     let mySA = new SDOAdapter();
     let splitURL = pathname.split('/');
@@ -10,6 +11,7 @@ $(document).ready(function() {
     mySA.constructSDOVocabularyURL('7.04', 'all-layers').then(function(sdoURL) {
         mySA.addVocabularies([sdoURL, externalVocabURL]).then(function() {
             $('#loading').hide();
+
             let termTest;
             let isproperty = false;
             let isclass = false;
@@ -295,7 +297,6 @@ $(document).ready(function() {
     function makeCrumCell(superClass) {
         let crumProp;
         let IRIcheck;
-
         try {
             let crumClass;
             try {
@@ -363,16 +364,11 @@ $(document).ready(function() {
             html = `<tr typeof="rdfs:Property" resource="${propVocab}/${prop}">
     <th class="prop-nam" scope="row">
       <code property="rdfs:label"><a property="rdfs:label" href="${propVocab}/${prop}" class="outgoingLinkRed" target="_blank">${prop}</a></code>
-    </th>
-    <td class="prop-ect">
-        ${rangeCellItems.join('&nbsp; or <br/>')}
-    </td>
-    <td class="prop-desc" property="rdfs:comment">${propDesc}</td>
-    </tr>`
+    </th><td class="prop-ect">${rangeCellItems.join('&nbsp; or <br/>')}
+    </td><td class="prop-desc" property="rdfs:comment">${propDesc}</td></tr>`
         } else {
             html = `<tr typeof="rdfs:Property" resource="http://dachkg.org/ontology/1.0/${prop}">
-    <th class="prop-nam" scope="row">
-      <code property="rdfs:label"><a property="rdfs:label" href="/${vocabId}/${prop}" >${property}</a></code>
+    <th class="prop-nam" scope="row"><code property="rdfs:label"><a property="rdfs:label" href="/${vocabId}/${prop}" >${property}</a></code>
     </th>
     <td class="prop-ect">
         ${rangeCellItems.join('&nbsp; or <br/>')}
