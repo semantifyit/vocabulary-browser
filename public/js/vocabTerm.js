@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(() => {
     //    $("#header").load("header.html");
     const pathname = window.location.pathname;
     let mySA = new SDOAdapter();
@@ -8,10 +8,9 @@ $(document).ready(function() {
     let externalVocabURL = "https://semantify.it/voc/" + vocabId;
     let currentVocab;
 
-    mySA.constructSDOVocabularyURL('7.04', 'all-layers').then(function(sdoURL) {
-        mySA.addVocabularies([sdoURL, externalVocabURL]).then(function() {
+    mySA.constructSDOVocabularyURL('7.04', 'all-layers').then((sdoURL) => {
+        mySA.addVocabularies([sdoURL, externalVocabURL]).then(() => {
             $('#loading').hide();
-
             let termTest;
             let isproperty = false;
             let isclass = false;
