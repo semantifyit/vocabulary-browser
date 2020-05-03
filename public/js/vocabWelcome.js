@@ -15,12 +15,10 @@ $(document).ready(function() {
             let classesinVocab = mySA.getListOfClasses({ fromVocabulary: VocabName });
             propertiesinVocab = mySA.getAllProperties({ fromVocabulary: VocabName });
             let allProps = mySA.getListOfProperties({ fromVocabulary: VocabName })
-
             let allEnumerations = mySA.getListOfEnumerations();
             let enumerationsInVocab = allEnumerations.filter(function(item) {
                 return item.indexOf("schema:") !== 0;
             });
-
             $('#vocabName').append(`${vocabularyName}  (${VocabName})`);
             let noOfClasses = classesinVocab.length;
             if (noOfClasses > 0) {
@@ -42,7 +40,6 @@ $(document).ready(function() {
             } else {
                 $('#noOfEnu').append(`No enumerations found`);
             }
-
             classesinVocab.forEach((vocabClass, index) => {
                 let className = mySA.getClass(vocabClass);
                 let vocabProps = className.getProperties(false);
@@ -58,14 +55,14 @@ $(document).ready(function() {
         console.log(error);
     });
 
-    function listProperties(allProps) {
+    async function listProperties(allProps) {
         //        return new Promise(allProps) = > {}
         allProps.forEach((prop) => {
             $('#listofProps').append(`<li> <a href="/${vocabId}/${prop}">${prop}</a> </li>`);
         });
     }
 
-    function listClasses(allClasses) {
+    async function listClasses(allClasses) {
         allClasses.forEach((oneClass) => {
             $('#listofClasses').append(`<li> <a href="/${vocabId}/${oneClass}">${oneClass}</a> </li>`);
         });
