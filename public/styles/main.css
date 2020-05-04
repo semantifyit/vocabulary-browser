@@ -187,8 +187,9 @@ table.definition-table {
     border-spacing: 3px; */
 }
 
-.external-vocab-head {
+.title-external-vocab {
     text-align: center;
+    margin: 2%;
 }
 
 #loading {

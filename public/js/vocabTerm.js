@@ -8,8 +8,8 @@ $(document).ready(() => {
     let externalVocabURL = "https://semantify.it/voc/" + vocabId;
     let currentVocab;
 
-    mySA.constructSDOVocabularyURL('7.04', 'all-layers').then((sdoURL) => {
-        mySA.addVocabularies([sdoURL, externalVocabURL]).then(() => {
+    mySA.constructSDOVocabularyURL('7.04', 'all-layers').then(function(sdoURL) {
+        mySA.addVocabularies([sdoURL, externalVocabURL]).then(function() {
             $('#loading').hide();
             let termTest;
             let isproperty = false;
