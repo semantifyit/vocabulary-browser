@@ -1,6 +1,5 @@
 $("#header").load("header.html");
-
-$.getJSON("vocabs.JSON", function(data) {
+$.getJSON("vocabs.json", function(data) {
     let dataset = data[0]['schema:dataset'];
     dataset.forEach((set, index) => {
         let nameofvocab = [set][0]['schema:name'];

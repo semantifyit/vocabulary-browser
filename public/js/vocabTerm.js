@@ -1,5 +1,5 @@
-$(document).ready(() => {
-    //    $("#header").load("header.html");
+$(document).ready(async() => {
+    $("#header").load("header.html");
     const pathname = window.location.pathname;
     let mySA = new SDOAdapter();
     let splitURL = pathname.split('/');
@@ -8,49 +8,46 @@ $(document).ready(() => {
     let externalVocabURL = "https://semantify.it/voc/" + vocabId;
     let currentVocab;
 
-    mySA.constructSDOVocabularyURL('7.04', 'all-layers').then(function(sdoURL) {
-        mySA.addVocabularies([sdoURL, externalVocabURL]).then(function() {
-            $('#loading').hide();
-            let termTest;
-            let isproperty = false;
-            let isclass = false;
-            let isEnumerationMember = false;
-            try {
-                termTest = mySA.getProperty(term);
-                isproperty = true;
-                currentVocab = termTest.getVocabulary();
-            } catch (e) {}
-            try {
-                termTest = mySA.getClass(term);
-                isclass = true;
-                currentVocab = termTest.getVocabulary();
-            } catch (e) {}
-            try {
-                termTest = mySA.getEnumerationMember(term);
-                isEnumerationMember = true;
-                currentVocab = termTest.getVocabulary();
-            } catch (e) {}
-            if (isclass) {
-                $('#termClass').show();
-                createClassPage(termTest);
-            }
-            if (isproperty) {
-                $('#termProperty').show();
-                createPropertyPage(termTest);
-            }
-            if (isEnumerationMember) {
-                $('#termClass').show();
-                let enuMemberDomain = termTest.getDomainEnumerations(); // string[]
-                let enumClass = mySA.getEnumeration(enuMemberDomain[0]);
-                createClassPage(enumClass, termTest); //(Enum, EnumMember)
+    sdoURL = await mySA.constructSDOVocabularyURL('latest', 'all-layers');
+    await mySA.addVocabularies([sdoURL, externalVocabURL]);
+    $('#loading').hide();
+    let termTest;
+    let isproperty = false;
+    let isclass = false;
+    let isEnumerationMember = false;
+    try {
+        termTest = mySA.getProperty(term);
+        isproperty = true;
+        currentVocab = termTest.getVocabulary();
+    } catch (e) {}
+    try {
+        termTest = mySA.getClass(term);
+        isclass = true;
+        currentVocab = termTest.getVocabulary();
+    } catch (e) {}
+    try {
+        termTest = mySA.getEnumerationMember(term);
+        isEnumerationMember = true;
+        currentVocab = termTest.getVocabulary();
+    } catch (e) {}
+    if (isclass) {
+        $('#termClass').show();
+        createClassPage(termTest);
+    }
+    if (isproperty) {
+        $('#termProperty').show();
+        createPropertyPage(termTest);
+    }
+    if (isEnumerationMember) {
+        $('#termClass').show();
+        let enuMemberDomain = termTest.getDomainEnumerations(); // string[]
+        let enumClass = mySA.getEnumeration(enuMemberDomain[0]);
+        createClassPage(enumClass, termTest); //(Enum, EnumMember)
 
-            }
-        })
-    });
+    }
 
     function createPropertyPage(termTest) {
         let NameofProp;
-
         NameofProp = termTest.getName();
         $("h1.page-title").text(NameofProp);
 
