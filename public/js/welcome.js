@@ -8,13 +8,19 @@ $.getJSON("vocabs.json", function(data) {
         let authorEmail = [set][0]['schema:author']['schema:email'];
         let splitURL = vocabUrl.split('/');
         let vocabId = splitURL[4];
-        $('#external-vocab').append(`<tr id="vocab-${index}"></tr>`);
-        $(`#vocab-${index}`).append(`<td><a class="nameofvocab" href="./${vocabId}">${nameofvocab}</a></td>`);
-        $(`#vocab-${index}`).append(`<td><a href="${vocabUrl}" target="_blank">${vocabUrl}</a></td>`);
-        if (authorName) {
-            $(`#vocab-${index}`).append(`<td>${authorName}</td>`);
-        } else {
-            $(`#vocab-${index}`).append(`<td>${authorEmail}</td>`);
-        }
+        $('#external-vocab').append(`<tr id="vocab-${index}"></tr>`)
+            //        $(`#vocab-${index}`).load("templateWelcome.html");
+        $.get("templateWelcome.html", (data) => {
+            data.replace(/{{nameofvocab}}/g, nameofvocab);
+            data.replace(/{{vocabId}}/g, vocabId);
+            data.replace(/{{vocabUrl}}/g, vocabUrl);
+            data.replace(/{{authorName}}/g, authorName);
+            data.replace(/{{authorEmail}}/g, authorEmail);
+
+            $(`#vocab-${index}`).html(data);
+            //            $(`#vocab-${index}`).html(abc.vocabUrl);
+            //          $(`#vocab-${index}`).html(abc.authorName);
+            //        $(`#vocab-${index}`).html(abc.authorEmail);
+        });
     });
 });

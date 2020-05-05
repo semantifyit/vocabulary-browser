@@ -96,12 +96,10 @@ $(document).ready(async() => {
             propSubVocab = subPropName.getVocabulary();
         });
 
-
         let domainCellItems = [];
         propDomain.forEach((propDom) => {
             domainCellItems.push(makeDomainCell(propDom));
         });
-
         let rangeCellItems = [];
         propRange.forEach((propRange) => {
             rangeCellItems.push(makeRangeCell(propRange));
