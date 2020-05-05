@@ -1,5 +1,5 @@
 $(document).ready(async() => {
-    $("#header").load("header.html");
+    $("#header").load("/header.html");
     const pathname = window.location.pathname;
     let mySA = new SDOAdapter();
     let splitURL = pathname.split('/');

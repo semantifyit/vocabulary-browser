@@ -1,4 +1,4 @@
-$("#header").load("header.html");
+$("#header").load("/header.html");
 $.getJSON("vocabs.json", function(data) {
     let dataset = data[0]['schema:dataset'];
     dataset.forEach((set, index) => {
@@ -11,16 +11,19 @@ $.getJSON("vocabs.json", function(data) {
         $('#external-vocab').append(`<tr id="vocab-${index}"></tr>`)
             //        $(`#vocab-${index}`).load("templateWelcome.html");
         $.get("templateWelcome.html", (data) => {
-            data.replace(/{{nameofvocab}}/g, nameofvocab);
-            data.replace(/{{vocabId}}/g, vocabId);
-            data.replace(/{{vocabUrl}}/g, vocabUrl);
-            data.replace(/{{authorName}}/g, authorName);
-            data.replace(/{{authorEmail}}/g, authorEmail);
+            nameofvocab = data.replace(/{{nameofvocab}}/g, nameofvocab);
+            vocabId = data.replace(/{{vocabId}}/g, vocabId);
+            vocabUrl = data.replace(/{{vocabUrl}}/g, vocabUrl);
+            authorName = data.replace(/{{authorName}}/g, authorName);
+            authorEmail = data.replace(/{{authorEmail}}/g, authorEmail);
 
-            $(`#vocab-${index}`).html(data);
+
+            $(`#vocab-${index}`).html(nameofvocab);
+
             //            $(`#vocab-${index}`).html(abc.vocabUrl);
             //          $(`#vocab-${index}`).html(abc.authorName);
             //        $(`#vocab-${index}`).html(abc.authorEmail);
         });
+
     });
 });

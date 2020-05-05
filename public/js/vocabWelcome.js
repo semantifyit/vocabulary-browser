@@ -1,5 +1,5 @@
 $(document).ready(async() => {
-    $("#header").load("header.html");
+    $("#header").load("/header.html");
     let mySA = new SDOAdapter();
     let externalVocabURL = "https://semantify.it/voc/" + getVocabId();
     let vocabId = getVocabId();
