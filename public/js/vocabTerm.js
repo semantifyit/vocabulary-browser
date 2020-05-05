@@ -107,8 +107,21 @@ $(document).ready(async() => {
         });
         let DefTableHTML = "";
         if (propRange.length > 0) {
-            DefTableHTML = DefTableHTML + $.ge
-        };
+            DefTableHTML = DefTableHTML + `<table class="definition-table">
+            <thead>
+                <tr>
+                    <th>Values expected to be one of these types</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        ${rangeCellItems.join('<br>')}
+                    </td>
+                </tr>
+            </tbody>
+        </table>`
+        }
         if (propDomain.length > 0) {
             DefTableHTML = DefTableHTML + `<table class="definition-table">
     <thead>
@@ -124,14 +137,10 @@ $(document).ready(async() => {
       </tr>
     </tbody>
   </table>`
-        };
+        }
         if (propSuperProp.length > 0) {
             DefTableHTML = DefTableHTML + `<table class="definition-table">
-    <thead>
-      <tr>
-        <th>Super-properties</th>
-      </tr>
-    </thead>
+    <thead><tr><th>Super-properties</th></tr></thead>
     <tbody>`
             if (propSuperVocab !== currentVocab) {
                 DefTableHTML = DefTableHTML + `<tr>
@@ -141,7 +150,7 @@ $(document).ready(async() => {
       </tr>
     </tbody>
   </table>`
-            };
+            }
             if (propSuperVocab === currentVocab) {
                 DefTableHTML = DefTableHTML + `<tr>
       <td>
@@ -150,15 +159,11 @@ $(document).ready(async() => {
     </tr>
   </tbody>
 </table>`
-            };
-        };
+            }
+        }
         if (propSubProp.length > 0) {
             DefTableHTML = DefTableHTML + `<table class="definition-table">
-    <thead>
-      <tr>
-        <th>Sub-properties</th>
-      </tr>
-    </thead>
+    <thead><tr><th>Sub-properties</th></tr></thead>
     <tbody>`
             if (propSubVocab !== currentVocab) {
                 DefTableHTML = DefTableHTML + `<tr>

@@ -1,5 +1,5 @@
-$("#header").load("header.html");
-$.getJSON("vocabs.json", function(data) {
+$("#header").load("/header.html");
+$.getJSON("/vocabs.json", function(data) {
     let dataset = data[0]['schema:dataset'];
     dataset.forEach((set, index) => {
         let nameofvocab = [set][0]['schema:name'];
@@ -8,6 +8,17 @@ $.getJSON("vocabs.json", function(data) {
         let authorEmail = [set][0]['schema:author']['schema:email'];
         let splitURL = vocabUrl.split('/');
         let vocabId = splitURL[4];
+
+        // $('.table-striped').append('<div id="template_tr_error"></div>');
+        // $('#external-vocab').append(`<tr id="vocab-${index}"></tr>`);
+        // loadHtmlToJqueryElement($('#template_tr_vocab'), '/templateWelcome.html');
+        // const html = $('#template_tr_vocab').innerHTML
+        //     .replace(/{{{{vocabUrl}}}}/g, vocabUrl)
+        //     .replace(/{{vocabId}}/g, vocabId)
+        //     .replace(/{{nameofvocab}}/g, nameofvocab)
+        // $(`#vocab-${index}`).append(html);
+
+
         $('#external-vocab').append(`<tr id="vocab-${index}"></tr>`);
         $(`#vocab-${index}`).append(`<td><a class="nameofvocab" href="./${vocabId}">${nameofvocab}</a></td>`);
         $(`#vocab-${index}`).append(`<td><a href="${vocabUrl}" target="_blank">${vocabUrl}</a></td>`);
@@ -18,3 +29,10 @@ $.getJSON("vocabs.json", function(data) {
         }
     });
 });
+
+
+// async function loadHtmlToJqueryElement(jqueryEle, url) {
+//     jqueryEle.load(url, function() {
+//         res();
+//     })
+// }
