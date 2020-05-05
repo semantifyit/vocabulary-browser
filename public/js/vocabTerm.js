@@ -43,7 +43,6 @@ $(document).ready(async() => {
         let enuMemberDomain = termTest.getDomainEnumerations(); // string[]
         let enumClass = mySA.getEnumeration(enuMemberDomain[0]);
         createClassPage(enumClass, termTest); //(Enum, EnumMember)
-
     }
 
     function createPropertyPage(termTest) {
@@ -62,7 +61,7 @@ $(document).ready(async() => {
         superClassofprop.push(NameofProp);
 
         let breadCrum = makeBreadCrum(superClassofprop);
-        $('#breadcrumbs').append(breadCrum);
+        $('.breadcrumbs').append(breadCrum);
         let resource = termTest.getIRI();
         $('#mainContent').attr('typeof', termType);
         $('#mainContent').attr('resource', resource);
@@ -73,6 +72,8 @@ $(document).ready(async() => {
         $('#termProperty').append(DefTableHTML);
 
     }
+
+
 
     function makeDefTable(termTest) { // property id as string
         let superProp;
@@ -106,20 +107,7 @@ $(document).ready(async() => {
         });
         let DefTableHTML = "";
         if (propRange.length > 0) {
-            DefTableHTML = DefTableHTML + `<table class="definition-table">
-    <thead>
-      <tr>
-        <th>Values expected to be one of these types</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-          ${rangeCellItems.join('<br>')}
-        </td>
-      </tr>
-    </tbody>
-    </table>`
+            DefTableHTML = DefTableHTML + $.ge
         };
         if (propDomain.length > 0) {
             DefTableHTML = DefTableHTML + `<table class="definition-table">

@@ -6,7 +6,7 @@ $(document).ready(async() => {
 
     let vocabularyName = '';
 
-    $.getJSON("vocabs.JSON", function(data) {
+    $.getJSON("/vocabs.json", function(data) {
         let dataset = data[0]['schema:dataset'];
         dataset.forEach((set) => {
             let vocabUrl = [set][0]['schema:url'];
