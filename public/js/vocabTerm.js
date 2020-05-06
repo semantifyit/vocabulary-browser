@@ -51,9 +51,8 @@ $(document).ready(async() => {
     var propSubVocab;
     var propSuperProp;
     var propSubProp;
-    var rangeCellItemsArray = [];
     var domainCellItemsArray = [];
-
+    var rangeCellItemsArray = [];
 
     async function createPropertyPage(termTest) {
         let NameofProp;
@@ -80,8 +79,8 @@ $(document).ready(async() => {
         let DefTableHTML = await makeDefTable(termTest);
         $('#termProperty').append(
             DefTableHTML
-            .replace(/{{rangeCellItemsArray}}/g, rangeCellItemsArray)
-            .replace(/{{domainCellItemsArray}}/g, domainCellItemsArray)
+            .replace(/{{rangeCellItemsArray}}/g, rangeCellItemsArray.join('<br>'))
+            .replace(/{{domainCellItemsArray}}/g, domainCellItemsArray.join('<br>'))
             .replace(/{{propSuperVocab}}/g, propSuperVocab)
             .replace(/{{superProp}}/g, superProp)
             .replace(/{{propSuperProp}}/g, propSuperProp)
@@ -91,8 +90,6 @@ $(document).ready(async() => {
             .replace(/{{propSubProp}}/g, propSubProp)
         );
     }
-
-
 
     async function makeDefTable(termTest) { // property id as string
 
@@ -111,17 +108,17 @@ $(document).ready(async() => {
             let subPropName = mySA.getProperty(subProp);
             propSubVocab = subPropName.getVocabulary();
         });
+        var rangeCellItems = [];
+        propRange.forEach((propRange) => {
+            rangeCellItems.push(makeRangeCell(propRange));
+        });
+        rangeCellItemsArray = rangeCellItems;
         var domainCellItems = [];
         propDomain.forEach((propDom) => {
             domainCellItems.push(makeDomainCell(propDom));
         });
         domainCellItemsArray = domainCellItems;
 
-        var rangeCellItems = [];
-        propRange.forEach((propRange) => {
-            rangeCellItems.push(makeRangeCell(propRange));
-        });
-        rangeCellItemsArray = rangeCellItems;
         let DefTableHTML = "";
         let templateTableRange = await $.get('/templateTableRange.html');
         let templateTableDomain = await $.get('/templateTableDomain.html');
@@ -142,22 +139,15 @@ $(document).ready(async() => {
             }
             if (propSuperVocab === currentVocab) {
                 DefTableHTML = DefTableHTML + tempSupPropSameVocab;
-                DefTableHTML.replace(/{{vocabId}}/g, vocabId)
-                    .replace(/{{superProp}}/g, superProp)
-                    .replace(/{{propSuperProp}}/g, propSuperProp)
             }
         }
         if (propSubProp.length > 0) {
             if (propSubVocab !== currentVocab) {
                 DefTableHTML = DefTableHTML + tempSubPropSDOvocab;
-                DefTableHTML.replace(/{{propSubVocab}}/g, propSubVocab)
-                    .replace(/{{propSub}}/g, propSub)
             }
             if (propSubVocab === currentVocab) {
                 DefTableHTML = DefTableHTML + tempSubPropSameVocab;
-                DefTableHTML.replace(/{{vocabId}}/g, vocabId)
-                    .replace(/{{propSub}}/g, propSub)
-                    .replace(/{{propSubProp}}/g, propSubProp)
+
             }
         }
         return DefTableHTML;
@@ -177,7 +167,7 @@ $(document).ready(async() => {
         return EnuMembers;
     };
 
-    function createClassPage(termTest, enumerationMember) {
+    async function createClassPage(termTest, enumerationMember) {
         let termIRI = termTest.getIRI(true);
         let NameofClass;
         if (enumerationMember) {
@@ -309,12 +299,12 @@ $(document).ready(async() => {
         return tbody;
     }
 
-
     function makeProperty(property) { // property id as string
 
         let testProperty = mySA.getProperty(property);
         let propRanges = testProperty.getRanges(false);
         let propDesc = testProperty.getDescription();
+        var rangeCellItems = [];
         propRanges.forEach((propRange) => {
             rangeCellItems.push(makeRangeCell(propRange));
         });
@@ -342,7 +332,7 @@ $(document).ready(async() => {
         return html;
     }
 
-    async function makeRangeCell(range) {
+    function makeRangeCell(range) {
         let rangeClassName;
         try {
             rangeClassName = mySA.getClass(range);
