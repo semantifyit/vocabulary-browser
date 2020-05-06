@@ -36,7 +36,7 @@ $(document).ready(async() => {
     }
     if (isproperty) {
         $('#termProperty').show();
-        createPropertyPage(termTest);
+        await createPropertyPage(termTest);
     }
     if (isEnumerationMember) {
         $('#termClass').show();
@@ -45,7 +45,17 @@ $(document).ready(async() => {
         createClassPage(enumClass, termTest); //(Enum, EnumMember)
     }
 
-    function createPropertyPage(termTest) {
+    var superProp;
+    var propSuperVocab;
+    var propSub;
+    var propSubVocab;
+    var propSuperProp;
+    var propSubProp;
+    var rangeCellItemsArray = [];
+    var domainCellItemsArray = [];
+
+
+    async function createPropertyPage(termTest) {
         let NameofProp;
         NameofProp = termTest.getName();
         $("h1.page-title").text(NameofProp);
@@ -60,31 +70,36 @@ $(document).ready(async() => {
         superClassofprop.push(ClassNameOfProp);
         superClassofprop.push(NameofProp);
 
-        let breadCrum = makeBreadCrum(superClassofprop);
+        let breadCrum = await makeBreadCrum(superClassofprop);
         $('.breadcrumbs').append(breadCrum);
         let resource = termTest.getIRI();
         $('#mainContent').attr('typeof', termType);
         $('#mainContent').attr('resource', resource);
         let propDesc = termTest.getDescription();
         $('div[property*="rdfs:comment"]').text(propDesc);
-
-        let DefTableHTML = makeDefTable(termTest);
-        $('#termProperty').append(DefTableHTML);
-
+        let DefTableHTML = await makeDefTable(termTest);
+        $('#termProperty').append(
+            DefTableHTML
+            .replace(/{{rangeCellItemsArray}}/g, rangeCellItemsArray)
+            .replace(/{{domainCellItemsArray}}/g, domainCellItemsArray)
+            .replace(/{{propSuperVocab}}/g, propSuperVocab)
+            .replace(/{{superProp}}/g, superProp)
+            .replace(/{{propSuperProp}}/g, propSuperProp)
+            .replace(/{{propSubVocab}}/g, propSubVocab)
+            .replace(/{{propSub}}/g, propSub)
+            .replace(/{{vocabId}}/g, vocabId)
+            .replace(/{{propSubProp}}/g, propSubProp)
+        );
     }
 
 
 
-    function makeDefTable(termTest) { // property id as string
-        let superProp;
-        let propSuperVocab;
-        let propSub;
-        let propSubVocab;
+    async function makeDefTable(termTest) { // property id as string
 
         let propRange = termTest.getRanges(false);
         let propDomain = termTest.getDomains(false);
-        let propSuperProp = termTest.getSuperProperties();
-        let propSubProp = termTest.getSubProperties(false);
+        propSuperProp = termTest.getSuperProperties();
+        propSubProp = termTest.getSubProperties(false);
 
         propSuperProp.forEach((propSuper) => {
             superProp = propSuper.replace('schema:', '');
@@ -96,94 +111,55 @@ $(document).ready(async() => {
             let subPropName = mySA.getProperty(subProp);
             propSubVocab = subPropName.getVocabulary();
         });
-
-        let domainCellItems = [];
+        var domainCellItems = [];
         propDomain.forEach((propDom) => {
             domainCellItems.push(makeDomainCell(propDom));
         });
-        let rangeCellItems = [];
+        domainCellItemsArray = domainCellItems;
+
+        var rangeCellItems = [];
         propRange.forEach((propRange) => {
             rangeCellItems.push(makeRangeCell(propRange));
         });
+        rangeCellItemsArray = rangeCellItems;
         let DefTableHTML = "";
+        let templateTableRange = await $.get('/templateTableRange.html');
+        let templateTableDomain = await $.get('/templateTableDomain.html');
+        let tempSupPropSDOvocab = await $.get('/tempSupPropSDOvocab.html');
+        let tempSupPropSameVocab = await $.get('/tempSupPropSameVocab.html');
+        let tempSubPropSDOvocab = await $.get('/tempSubPropSDOvocab.html');
+        let tempSubPropSameVocab = await $.get('/tempSubPropSameVocab.html');
+
         if (propRange.length > 0) {
-            DefTableHTML = DefTableHTML + `<table class="definition-table">
-            <thead>
-                <tr>
-                    <th>Values expected to be one of these types</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        ${rangeCellItems.join('<br>')}
-                    </td>
-                </tr>
-            </tbody>
-        </table>`
+            DefTableHTML = DefTableHTML + templateTableRange;
         }
         if (propDomain.length > 0) {
-            DefTableHTML = DefTableHTML + `<table class="definition-table">
-    <thead>
-      <tr>
-        <th>Used on these types</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-        ${domainCellItems.join('<br>')}
-        </td>
-      </tr>
-    </tbody>
-  </table>`
+            DefTableHTML = DefTableHTML + templateTableDomain;
         }
         if (propSuperProp.length > 0) {
-            DefTableHTML = DefTableHTML + `<table class="definition-table">
-    <thead><tr><th>Super-properties</th></tr></thead>
-    <tbody>`
             if (propSuperVocab !== currentVocab) {
-                DefTableHTML = DefTableHTML + `<tr>
-        <td>
-          <a property="superProperties" href="${propSuperVocab}/${superProp}" class="outgoingLinkRed" target="_blank">${superProp}</a>
-        </td>
-      </tr>
-    </tbody>
-  </table>`
+                DefTableHTML = DefTableHTML + tempSupPropSDOvocab;
             }
             if (propSuperVocab === currentVocab) {
-                DefTableHTML = DefTableHTML + `<tr>
-      <td>
-        <a property="superProperties" href="/${vocabId}/${superProp}" >${propSuperProp}</a>
-      </td>
-    </tr>
-  </tbody>
-</table>`
+                DefTableHTML = DefTableHTML + tempSupPropSameVocab;
+                DefTableHTML.replace(/{{vocabId}}/g, vocabId)
+                    .replace(/{{superProp}}/g, superProp)
+                    .replace(/{{propSuperProp}}/g, propSuperProp)
             }
         }
         if (propSubProp.length > 0) {
-            DefTableHTML = DefTableHTML + `<table class="definition-table">
-    <thead><tr><th>Sub-properties</th></tr></thead>
-    <tbody>`
             if (propSubVocab !== currentVocab) {
-                DefTableHTML = DefTableHTML + `<tr>
-        <td>
-          <a property="subProperties" href="${propSubVocab}/${propSub}" class="outgoingLinkRed" target="_blank">${propSub}</a>
-        </td>
-      </tr>
-    </tbody>
-  </table>`
-            };
+                DefTableHTML = DefTableHTML + tempSubPropSDOvocab;
+                DefTableHTML.replace(/{{propSubVocab}}/g, propSubVocab)
+                    .replace(/{{propSub}}/g, propSub)
+            }
             if (propSubVocab === currentVocab) {
-                DefTableHTML = DefTableHTML + `<tr>
-      <td>
-        <a property="subProperties" href="/${vocabId}/${propSub}" >${propSubProp}</a>
-      </td>
-    </tr>
-  </tbody>
-</table>`
-            };
-        };
+                DefTableHTML = DefTableHTML + tempSubPropSameVocab;
+                DefTableHTML.replace(/{{vocabId}}/g, vocabId)
+                    .replace(/{{propSub}}/g, propSub)
+                    .replace(/{{propSubProp}}/g, propSubProp)
+            }
+        }
         return DefTableHTML;
     }
 
@@ -333,12 +309,12 @@ $(document).ready(async() => {
         return tbody;
     }
 
+
     function makeProperty(property) { // property id as string
 
         let testProperty = mySA.getProperty(property);
         let propRanges = testProperty.getRanges(false);
         let propDesc = testProperty.getDescription();
-        let rangeCellItems = [];
         propRanges.forEach((propRange) => {
             rangeCellItems.push(makeRangeCell(propRange));
         });
@@ -366,7 +342,7 @@ $(document).ready(async() => {
         return html;
     }
 
-    function makeRangeCell(range) {
+    async function makeRangeCell(range) {
         let rangeClassName;
         try {
             rangeClassName = mySA.getClass(range);
@@ -387,6 +363,7 @@ $(document).ready(async() => {
     function makeDomainCell(domain) {
         let domainName = mySA.getClass(domain);
         let propDomVocab = domainName.getVocabulary();
+
         let domainVocab = domain.replace('schema:', '');
 
         if (propDomVocab !== currentVocab) {
