@@ -205,20 +205,9 @@ $(document).ready(async() => {
             let generatedTbody = makeClassBody(term, superclass, index);
             // Add all classes in tbody 
             $('#classes-table').append(generatedTbody);
-            props.forEach(async(prop) => {
-                let generatedHTML = await makeProperty(prop);
-                propInMakeProp = prop.replace('schema:', '');
-                $('#sup-class-props' + index).append(
-                    generatedHTML
-                    .replace(/{{prop}}/g, propInMakeProp)
-                    //                    .replace(/{{author}}/g, authorName || authorEmail)
-
-                    .replace(/{{vocabId}}/g, vocabId)
-                    .replace(/{{property}}/g, prop)
-                    .replace(/{{propDesc}}/g, propDescription)
-                    .replace(/{{propVocab}}/g, propVocab)
-                    .replace(/{{rangeCellItemsArray}}/g, rangeCellItemsArray.join('&nbsp; or <br/>'))
-                );
+            props.forEach((prop) => {
+                let generatedHTML = makeProperty(prop);
+                $('#sup-class-props' + index).append(generatedHTML);
             });
         });
 
@@ -309,29 +298,30 @@ $(document).ready(async() => {
         }
         return tbody;
     }
-    var propDescription;
-    var propVocab;
-    var rangeCellItemsArray = [];
-    async function makeProperty(property) { // property id as string
+
+    function makeProperty(property) { // property id as string
         let testProperty = mySA.getProperty(property);
         let propRanges = testProperty.getRanges(false);
-        propDescription = testProperty.getDescription();
+        let propDesc = testProperty.getDescription();
         var rangeCellItems = [];
         propRanges.forEach((propRange) => {
             rangeCellItems.push(makeRangeCell(propRange));
         });
-        rangeCellItemsArray = rangeCellItems;
 
-        propVocab = testProperty.getVocabulary();
-        propInMakeProp = property;
-        //        let prop = property.replace('schema:', '');
-        let tempMakePropSDOvocab = await $.get('/tempMakePropSDOvocab.html');
-        let tempMakePropSameVocab = await $.get('/tempMakePropSameVocab.html');
-        let html = "";
+        let propVocab = testProperty.getVocabulary();
+        let prop = property.replace('schema:', '');
+
+        let html;
         if (propVocab !== currentVocab) {
-            html = tempMakePropSDOvocab;
+            html = `<tr typeof="rdfs:Property" resource="${propVocab}/${prop}">
+    <th class="prop-nam" scope="row"><code property="rdfs:label"><a property="rdfs:label" href="${propVocab}/${prop}" class="outgoingLinkRed" target="_blank">${prop}</a></code>
+    </th><td class="prop-ect">${rangeCellItems.join('&nbsp; or <br/>')}</td>
+    <td class="prop-desc" property="rdfs:comment">${propDesc}</td></tr>`
         } else {
-            html = tempMakePropSameVocab;
+            html = `<tr typeof="rdfs:Property" resource="http://dachkg.org/ontology/1.0/${prop}">
+    <th class="prop-nam" scope="row"><code property="rdfs:label"><a property="rdfs:label" href="/${vocabId}/${prop}" >${property}</a></code></th>
+    <td class="prop-ect">${rangeCellItems.join('&nbsp; or <br/>')}</td>
+    <td class="prop-desc" property="rdfs:comment">${propDesc}</td></tr>`
         }
         return html;
     }
