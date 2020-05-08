@@ -32,6 +32,16 @@
                 "@type": "schema:Person",
                 "schema:name": "umut"
             }
+        },
+        {
+            "@type": "ds:Vocabulary",
+            "schema:url": "https://semantify.it/voc/OXMFF4uAh",
+            "schema:name": "Weather Extension",
+            "schema:author": {
+                "@type": "schema:Person",
+                "schema:name": "umut"
+            }
         }
+       
     ]
 }]
