@@ -10,7 +10,7 @@ app.use(function(req, res, next) {
 });
 app.use('/lib/schema-org-adapter.min.js', express.static(__dirname + '/node_modules/schema-org-adapter/dist/schema-org-adapter.min.js')); //sdo library
 app.use(express.static('public'));
-
+//Hello
 const node_modules_path = require.resolve('express').split('express')[0].slice(0, -1);
 app.use('/libs/jquery', express.static(node_modules_path + '/jquery/dist/'));
 app.use('/libs/bootstrap', express.static(node_modules_path + '/bootstrap/dist/'));
