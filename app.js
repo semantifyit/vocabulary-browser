@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const request = require('request');
 
 const app = express();
 app.use(morgan('combined'))
@@ -18,24 +19,55 @@ app.use('/libs/schema-org-adapter', express.static(node_modules_path + '/schema-
 
 
 app.get('/', (req, res) => {
-    //res.sendFile(__dirname + '/public/index.html');
-    res.sendFile(__dirname + '/public/welcome.html');
+    //    console.log('req', req.header('Accept'));
+    res.format({
+        'application/ld+json': () => {
+            res.sendFile(__dirname + '/public/vocabs.json');
+        },
+        'text/html': () => {
+            res.sendFile(__dirname + '/public/welcome.html');
+        },
+        default: () => {
+            res.sendFile(__dirname + '/public/welcome.html');
+        }
+    })
 });
 
 app.get('/:vocabId', (req, res) => {
-    //res.sendFile(__dirname + '/public/index.html');
-    res.sendFile(__dirname + '/public/vocabWelcome.html');
+    res.format({
+        'application/ld+json': () => {
+            request(`https://semantify.it/voc/${req.params.vocabId}`, function(error, response, body) {
+                res.send(body)
+            });
+        },
+        'text/html': () => {
+            res.sendFile(__dirname + '/public/vocabWelcome.html');
+        },
+        default: () => {
+            res.sendFile(__dirname + '/public/vocabWelcome.html');
+        }
+    })
 });
 
+app.get('/vsearch/vsearch.rdf', (req, res) => {
+    res.sendFile(__dirname + '/vsearch/vsearch.rdf');
+});
 // on /112
 // click on href with ./Trail
 // goto /112/Trail
 
 app.get('/*', (req, res) => {
-
-    res.sendFile(__dirname + '/public/vocabTerm.html');
-    //    res.sendFile(__dirname + '/public/welcome.html');
-
+    res.format({
+        // json: () => {
+        //     res.sendFile(__dirname + '/public/vocabTerm.html');
+        // },
+        'text/html': () => {
+            res.sendFile(__dirname + '/public/vocabTerm.html');
+        },
+        default: () => {
+            res.sendFile(__dirname + '/public/vocabTerm.html');
+        }
+    })
 });
 
 app.listen(process.env.PORT || 8080,
