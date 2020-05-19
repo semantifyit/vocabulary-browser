@@ -11,7 +11,6 @@ app.use(function(req, res, next) {
 });
 app.use('/lib/schema-org-adapter.min.js', express.static(__dirname + '/node_modules/schema-org-adapter/dist/schema-org-adapter.min.js')); //sdo library
 app.use(express.static('public'));
-//Hello
 const node_modules_path = require.resolve('express').split('express')[0].slice(0, -1);
 app.use('/libs/jquery', express.static(node_modules_path + '/jquery/dist/'));
 app.use('/libs/bootstrap', express.static(node_modules_path + '/bootstrap/dist/'));
@@ -20,17 +19,17 @@ app.use('/libs/schema-org-adapter', express.static(node_modules_path + '/schema-
 
 app.get('/', (req, res) => {
     //    console.log('req', req.header('Accept'));
-    res.format({
-        'application/ld+json': () => {
-            res.sendFile(__dirname + '/public/vocabs.json');
-        },
-        'text/html': () => {
-            res.sendFile(__dirname + '/public/welcome.html');
-        },
-        default: () => {
-            res.sendFile(__dirname + '/public/welcome.html');
-        }
-    })
+    // res.format({
+    //     'application/ld+json': () => {
+    //         res.sendFile(__dirname + '/public/vocabs.json');
+    //     },
+    //     'text/html': () => {
+    //         res.sendFile(__dirname + '/public/welcome.html');
+    //     },
+    //     default: () => {
+    res.sendFile(__dirname + '/public/welcome.html');
+    //     }
+    // })
 });
 
 app.get('/:vocabId', (req, res) => {
@@ -57,17 +56,17 @@ app.get('/vsearch/vsearch.rdf', (req, res) => {
 // goto /112/Trail
 
 app.get('/*', (req, res) => {
-    res.format({
-        // json: () => {
-        //     res.sendFile(__dirname + '/public/vocabTerm.html');
-        // },
-        'text/html': () => {
-            res.sendFile(__dirname + '/public/vocabTerm.html');
-        },
-        default: () => {
-            res.sendFile(__dirname + '/public/vocabTerm.html');
-        }
-    })
+    // res.format({
+    //     // json: () => {
+    //     //     res.sendFile(__dirname + '/public/vocabTerm.html');
+    //     // },
+    //     'text/html': () => {
+    //         res.sendFile(__dirname + '/public/vocabTerm.html');
+    //     },
+    //     default: () => {
+    res.sendFile(__dirname + '/public/vocabTerm.html');
+    //     }
+    // })
 });
 
 app.listen(process.env.PORT || 8080,
