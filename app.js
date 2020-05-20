@@ -1,6 +1,8 @@
 const express = require('express');
 const morgan = require('morgan');
-const request = require('request');
+const request = require('request-promise-native');
+const rdfTranslator = require('rdf-translator');
+const jsonld = require('jsonld');
 
 const app = express();
 app.use(morgan('combined'))
@@ -18,26 +20,46 @@ app.use('/libs/schema-org-adapter', express.static(node_modules_path + '/schema-
 
 
 app.get('/', (req, res) => {
-    //    console.log('req', req.header('Accept'));
-    // res.format({
-    //     'application/ld+json': () => {
-    //         res.sendFile(__dirname + '/public/vocabs.json');
-    //     },
-    //     'text/html': () => {
-    //         res.sendFile(__dirname + '/public/welcome.html');
-    //     },
-    //     default: () => {
     res.sendFile(__dirname + '/public/welcome.html');
-    //     }
-    // })
 });
 
 app.get('/:vocabId', (req, res) => {
     res.format({
-        'application/ld+json': () => {
-            request(`https://semantify.it/voc/${req.params.vocabId}`, function(error, response, body) {
-                res.send(body)
-            });
+        'application/ld+json': async() => {
+            try {
+                let uri = `https://semantify.it/voc/${req.params.vocabId}`;
+                let response = await request(uri);
+                res.send(response);
+            } catch (e) { res.status(400).send(e) }
+        },
+        'application/rdf+xml': async() => {
+            try {
+                let uri = `https://semantify.it/voc/${req.params.vocabId}`;
+                let nTriple = await renderNtriple(uri);
+                const data = await rdfTranslator(nTriple, 'n3', 'xml');
+                res.send(data);
+            } catch (e) { res.status(400).send(e) }
+        },
+        'application/n-triples': async() => {
+            try {
+                let uri = `https://semantify.it/voc/${req.params.vocabId}`;
+                let nTriple = await renderRDF(uri);
+                res.send(nTriple);
+            } catch (e) { res.status(400).send(e) }
+        },
+        'application/x-turtle': async() => {
+            try {
+                let uri = `https://semantify.it/voc/${req.params.vocabId}`;
+                let turtle = await renderRDF(uri);
+                res.send(turtle);
+            } catch (e) { res.status(400).send(e) }
+        },
+        'application/n3': async() => {
+            try {
+                let uri = `https://semantify.it/voc/${req.params.vocabId}`;
+                let nThree = await renderRDF(uri);
+                res.send(nThree);
+            } catch (e) { res.status(400).send(e) }
         },
         'text/html': () => {
             res.sendFile(__dirname + '/public/vocabWelcome.html');
@@ -56,18 +78,22 @@ app.get('/vsearch/vsearch.rdf', (req, res) => {
 // goto /112/Trail
 
 app.get('/*', (req, res) => {
-    // res.format({
-    //     // json: () => {
-    //     //     res.sendFile(__dirname + '/public/vocabTerm.html');
-    //     // },
-    //     'text/html': () => {
-    //         res.sendFile(__dirname + '/public/vocabTerm.html');
-    //     },
-    //     default: () => {
     res.sendFile(__dirname + '/public/vocabTerm.html');
-    //     }
-    // })
 });
+
+async function renderNtriple(uri) {
+    let nquads;
+    let body = await request(uri);
+    let jsonBody = JSON.parse(body);
+    delete jsonBody['@id'];
+    nquads = await jsonld.toRDF(jsonBody, { format: 'application/n-quads' });
+    return nquads;
+}
+
+async function renderRDF(uri) {
+    let nquads = await renderNtriple(uri);
+    return nquads;
+}
 
 app.listen(process.env.PORT || 8080,
     () => console.log(`Listening on port ${process.env.PORT || 8080}!`));
